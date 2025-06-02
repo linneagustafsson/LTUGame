@@ -1,6 +1,8 @@
-﻿internal class Player
+﻿internal class Player : Creature // Represents the player in the game
 {
-    public Player()
+    public Player(Cell cell) : base(cell, "P") 
     {
+        Color = ConsoleColor.White;
     }
+    
 }

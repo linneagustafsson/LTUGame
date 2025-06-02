@@ -1,14 +1,16 @@
 ﻿
 
+using LtuGame.ConsoleGame;
 using System.Data;
+using System.Diagnostics.CodeAnalysis;
 using System.Drawing;
 
 internal class Game
 {
-    private Map _map = null!;// Initialize map to null, will be set in Init method
-    private Player _player = null!;// Initialize player to null, will be set in Init method
+    private Map _map = null!;
+    private Creature _player = null!;
 
-    public Game()// Constructor to initialize the game
+    public Game()
     {
         
     }
@@ -22,13 +24,13 @@ internal class Game
 
     private void Play()
     {
-        bool gameInProgress = true; // Flag to track if the game is still in progress
+        bool gameInProgress = true; 
 
         do {
            
-            Drawmap();
+           Drawmap();
 
-            //GetCommand(); // Method to get user input (not implemented here)  
+           GetCommand();  
 
             //Act(); // Method to process the command (not implemented here)   
 
@@ -37,36 +39,85 @@ internal class Game
             //Enemyaction(); // Method to handle enemy actions (not implemented here)
 
             //Drawmap(); // Final redraw of the map after enemy actions (not implemented here)
-            Console.ReadLine();
+           
 
         } while (gameInProgress); // Loop until the game is no longer in progress
+    }
+
+    private void GetCommand()
+    {
+        var keyPressed = ConsoleUI.GetKey();
+
+        switch (keyPressed) { 
+        
+        case ConsoleKey.UpArrow:
+                // Move(_player.Cell.Y - 1, _player.Cell.X);
+                Move(Direction.North);
+            break;
+        case ConsoleKey.DownArrow:
+               // Move(_player.Cell.Y + 1, _player.Cell.X);
+                break;
+
+        case ConsoleKey.LeftArrow:
+           // Move(_player.Cell.Y, _player.Cell.X -1);
+                break;
+
+        case ConsoleKey.RightArrow:
+               // Move(_player.Cell.Y, _player.Cell.X + 1);
+                break;
+        }
+
+    }
+
+    private void Move(Position north)
+    {
+        throw new NotImplementedException();
+    }
+
+    private void Move(int y, int x)
+    {
+        var newPosition = _map.GetCell(y, x);
+        if (newPosition is not null) _player.Cell = newPosition; 
+       
     }
 
     private void Drawmap()
     {
        Console.Clear(); // Clear the console before drawing the map
 
-        for (int y = 0; y < _map.Height; y++) // Loop through each row of the map
+        for (int y = 0; y < _map.Height; y++) 
         {
             for (int x = 0; x < _map.Width; x++) 
             {
-                //ToDo: handle null cells
-                Cell? cell = _map.GetCell(y, x); // Get the cell at the current coordinates
-                Console.ForegroundColor = cell.Color;
-                Console.Write(cell.Symbol); // Print the symbol of the cell
+                
+                Cell? cell = _map.GetCell(y, x);
+                ArgumentNullException.ThrowIfNull(cell, nameof(cell));
 
+                IDrawable drawable = cell;
+
+                foreach (Creature creature in _map.Creatures) 
+                {
+                    if (creature.Cell == drawable) 
+                        drawable = creature; // If the cell contains a creature, use the creature for drawing
+                }
+                Console.ForegroundColor = drawable.Color; 
+                Console.Write(drawable.Symbol);
             }
-            Console.WriteLine(); // Move to the next line after printing a row
+            Console.WriteLine(); 
         }
 
-            Console.ResetColor(); // Reset the console color to default after drawing the map
+            Console.ResetColor(); 
     }
 
-    private void Init() // Method to initialize the game components
+    //[MemberNotNull(nameof(_map), nameof(_player))] 
+    private void Init() 
     {
         //ToDo: Read from config file   
 
-         _map = new Map(height:10, width: 10);
-         _player = new Player();
+        _map = new Map(height:10, width: 10);
+        Cell? playerCell = _map.GetCell(0, 0);
+        _player = new Player(playerCell);
+        
+        _map.Creatures.Add(_player); 
     }
 }

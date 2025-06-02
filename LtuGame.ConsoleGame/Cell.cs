@@ -1,12 +1,18 @@
-﻿internal class Cell
+﻿using LtuGame.ConsoleGame;
+
+internal class Cell : IDrawable
 {
 
-    public string Symbol => ". "; // Default symbol for the cell, can be overridden by derived classes
+    public string Symbol => ". ";  
 
-    public ConsoleColor Color { get; } // Default color for the cell, can be overridden by derived classes
-    public Cell()// Constructor to initialize the cell
+    public ConsoleColor Color { get; } 
+
+    public Position Position { get;  }
+  
+
+    public Cell(Position position)
     {
-        Color = ConsoleColor.Red; // Default color set to Red
-
+        Color = ConsoleColor.Red;
+        Position = position;
     }
 }
