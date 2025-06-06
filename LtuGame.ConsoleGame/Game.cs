@@ -83,6 +83,18 @@ internal class Game
 
         var items = _player.Cell.Items; // Get items from the player's current cell
         var item = items.FirstOrDefault(); // Get the first item in the cell
+
+        if (item is null) return; // If there are no items, exit the method
+
+        if(_player.BackPack.Add(item)) // Try to add the item to the player's backpack
+        
+        {
+           
+            Console.WriteLine($"You picked up a {item}.");
+            items.Remove(item); // Remove the item from the cell if successfully added to the backpack
+        }
+        
+
     }
 
     private void Move(Position movement)
