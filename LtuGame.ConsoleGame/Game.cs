@@ -112,7 +112,7 @@ internal class Game
        
     }
 
-    public void Dawmap()
+    public void Drawmap()
     {
         Console.Clear();
         ConsoleUI.Draw(_map); // Draw the map using the ConsoleUI class
