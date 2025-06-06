@@ -1,14 +1,13 @@
-﻿
-using LtuGame.ConsoleGame;
+﻿using LtuGame.ConsoleGame.GameWorld;
 
-internal class Map
+internal class Map : IMap
 {
-    private Cell[,] _cells; 
+    private Cell[,] _cells;
 
     public int Height { get; }
     public int Width { get; }
 
-    public List<Creature> Creatures { get; } = new List<Creature>(); 
+    public List<Creature> Creatures { get; } = new List<Creature>();
     public Map(int height, int width)
     {
         this.Height = height;
@@ -23,8 +22,13 @@ internal class Map
     }
 
     //[return: MaybeNull]
-    internal Cell? GetCell(int y, int x)
+    public Cell? GetCell(int y, int x)
     {
         return (x < 0 || x >= Width || y < 0 || y >= Height ? null : _cells[y, x]);
+    }
+
+    public Cell? GetCell(Position newPosition)
+    {
+        return GetCell(newPosition.Y, newPosition.X);
     }
 }

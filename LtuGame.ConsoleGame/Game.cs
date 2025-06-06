@@ -1,6 +1,6 @@
-﻿
-
-using LtuGame.ConsoleGame;
+﻿using LtuGame.ConsoleGame;
+using LtuGame.ConsoleGame.Extensions;
+using LtuGame.ConsoleGame.GameWorld;
 using System.Data;
 using System.Diagnostics.CodeAnalysis;
 using System.Drawing;
@@ -14,8 +14,7 @@ internal class Game
     {
         
     }
-    
-
+   
     internal void Run()
     {
         Init();
@@ -51,27 +50,30 @@ internal class Game
         switch (keyPressed) { 
         
         case ConsoleKey.UpArrow:
-                // Move(_player.Cell.Y - 1, _player.Cell.X);
+                
                 Move(Direction.North);
             break;
         case ConsoleKey.DownArrow:
-               // Move(_player.Cell.Y + 1, _player.Cell.X);
+                Move(Direction.South);
                 break;
 
         case ConsoleKey.LeftArrow:
-           // Move(_player.Cell.Y, _player.Cell.X -1);
+                Move(Direction.West);
                 break;
 
         case ConsoleKey.RightArrow:
-               // Move(_player.Cell.Y, _player.Cell.X + 1);
+                Move(Direction.East);
                 break;
         }
 
     }
 
-    private void Move(Position north)
+    private void Move(Position movement)
     {
-        throw new NotImplementedException();
+        var newPosition = _player.Cell.Position + movement;
+        var newCell = _map.GetCell(newPosition);
+        if (newCell is not null) _player.Cell = newCell;
+
     }
 
     private void Move(int y, int x)
@@ -81,34 +83,11 @@ internal class Game
        
     }
 
-    private void Drawmap()
+    public void Dawmap()
     {
-       Console.Clear(); // Clear the console before drawing the map
-
-        for (int y = 0; y < _map.Height; y++) 
-        {
-            for (int x = 0; x < _map.Width; x++) 
-            {
-                
-                Cell? cell = _map.GetCell(y, x);
-                ArgumentNullException.ThrowIfNull(cell, nameof(cell));
-
-                IDrawable drawable = cell;
-
-                foreach (Creature creature in _map.Creatures) 
-                {
-                    if (creature.Cell == drawable) 
-                        drawable = creature; // If the cell contains a creature, use the creature for drawing
-                }
-                Console.ForegroundColor = drawable.Color; 
-                Console.Write(drawable.Symbol);
-            }
-            Console.WriteLine(); 
-        }
-
-            Console.ResetColor(); 
+        Console.Clear();
+        ConsoleUI.Draw(_map); // Draw the map using the ConsoleUI class
     }
-
     //[MemberNotNull(nameof(_map), nameof(_player))] 
     private void Init() 
     {
@@ -118,6 +97,11 @@ internal class Game
         Cell? playerCell = _map.GetCell(0, 0);
         _player = new Player(playerCell);
         
-        _map.Creatures.Add(_player); 
+        _map.Creatures.Add(_player);
+
+        _map.GetCell(2, 6)?.Items.Add(Item.Coin());// Add a coin item to the map at position (2, 6)
+        _map.GetCell(3, 6)?.Items.Add(Item.Coin());
+        _map.GetCell(5, 2)?.Items.Add(Item.Stone());// Add a stone item to the map at position (2, 6)
+        _map.GetCell(4, 4)?.Items.Add(Item.Coin());
     }
 }

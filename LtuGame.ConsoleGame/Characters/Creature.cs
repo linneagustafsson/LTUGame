@@ -21,7 +21,7 @@ internal abstract class Creature :IDrawable
         if(string.IsNullOrWhiteSpace(symbol))
             throw new ArgumentException("Symbol cannot be null or whitespace.", nameof(symbol));
 
-        Cell = cell ?? throw new ArgumentNullException(nameof(cell));
+        Cell = cell; // ?? throw new ArgumentNullException(nameof(cell));
         Symbol = symbol; 
     }
 }
