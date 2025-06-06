@@ -8,7 +8,7 @@ using System.Drawing;
 internal class Game
 {
     private Map _map = null!;
-    private Creature _player = null!;
+    private Player _player = null!;
 
     public Game()
     {
@@ -64,8 +64,25 @@ internal class Game
         case ConsoleKey.RightArrow:
                 Move(Direction.East);
                 break;
+
+
+        case ConsoleKey.P://Pick up item
+                PickUp();
+                break;
         }
 
+    }
+
+    private void PickUp()
+    {
+        if (_player.BackPack.IsFull)
+        { 
+            Console.WriteLine("Your backpack is full. You cannot pick up more items.");
+            return;
+        }
+
+        var items = _player.Cell.Items; // Get items from the player's current cell
+        var item = items.FirstOrDefault(); // Get the first item in the cell
     }
 
     private void Move(Position movement)
