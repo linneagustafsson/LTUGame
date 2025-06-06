@@ -17,9 +17,9 @@ internal class ConsoleUI
                 ArgumentNullException.ThrowIfNull(cell, nameof(cell));
 
                 // Use the cell's drawable representation, prioritizing creatures over items
-                IDrawable drawable = map.Creatures.CreatureAt(cell)
-                            ??cell.Items.FirstOrDefault() as IDrawable
-                            ?? cell;
+                IDrawable drawable = map.Creatures.CreatureAt(cell)// Use the creature at the cell if present
+                                                                    ?? cell.Items.FirstOrDefault() as IDrawable// Use the first item as drawable if no creature is presents
+                                                                     ?? cell;// Fallback to the cell itself if no creature or item is present
 
                 foreach (Creature creature in map.Creatures)
                 {
