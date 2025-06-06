@@ -13,11 +13,10 @@ namespace LtuGame.LimitedList
         {
         }
 
-        public override bool Add(T item)
+        public override bool Add(T item) //specialisera funktionalitet från basklassen
         {
-            if (IsFull)
+            if (IsFull) _list.RemoveAt(0); //tar bort det äldsta item i listan
         
-       
             return base.Add(item); // Calls the base class Add method to add the item
         }
     }
