@@ -16,7 +16,7 @@ namespace LtuGame.LimitedList
             _list = new List<T>(_capacity);
         }
 
-        public bool Add(T item) //metoden Add lägger till ett objekt i listan om den inte är full
+        public virtual bool Add(T item) //virtual gör att vi kan override metoden i en subklass
         {
             ArgumentNullException.ThrowIfNull(item, nameof(item));
             
