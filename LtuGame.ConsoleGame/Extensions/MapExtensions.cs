@@ -16,7 +16,7 @@ namespace LtuGame.ConsoleGame.Extensions
 
             foreach (Creature creature in creatures)
             {
-                if (creature.Cell ==cell)
+                if (creature.Cell == cell)
 
                 result = creature;
                 break;
