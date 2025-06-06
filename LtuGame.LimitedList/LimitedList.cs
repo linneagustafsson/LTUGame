@@ -5,7 +5,7 @@ namespace LtuGame.LimitedList
     public class LimitedList<T> :IEnumerable<T>
     {
         private readonly int _capacity; //kapaciteten för listan, hur många objekt den kan hantera
-        private List<T> _list;
+        protected List<T> _list;
         //List<T> är en generisk lista som kan hantera olika typer av objekt
 
         public int Count => _list.Count;
