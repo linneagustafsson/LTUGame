@@ -26,7 +26,7 @@ namespace LtuGame.ConsoleGame
         public override string ToString() => _name;
    
        
-        public static Item Coin() => new Item("c", ConsoleColor.Yellow, "Coin"); // Represents a coin item
+        public static Item Coin() => new Item("c", ConsoleColor.Magenta, "Coin"); // Represents a coin item
         public static Item Stone() => new Item("s", ConsoleColor.Gray, "Stone");// Represents a stone item
          //de är static och kan anropas utan att skapa en instans av Item-klassen
     }

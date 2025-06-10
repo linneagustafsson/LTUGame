@@ -12,7 +12,7 @@ internal class ConsoleUI
     internal static void AddMessage(string message) => _messageLog.Add(message);
     internal static void PrintLog()
     {
-        _messageLog.Print(m=> Console.WriteLine(m));// Prints each message in the log to the console
+        _messageLog.Print(m=> Console.WriteLine(m + new string (' ', Console.WindowWidth - m.Length)));// Prints each message in the log to the console
         //_messageLog.Print(HowToPrint); // Prints an empty line after the log messages
         //_messageLog.Print(x => HowToPrint(x));
     }
@@ -35,14 +35,11 @@ internal class ConsoleUI
                 // Use the cell's drawable representation, prioritizing creatures over items
                 IDrawable drawable = map.Creatures.CreatureAt(cell)// Use the creature at the cell if present
                                                              ?? cell;// Fallback to the cell itself if no creature or item is present
-
-                foreach (Creature creature in map.Creatures)
-                {
-                    if (creature.Cell == drawable)
-                        drawable = creature; // If the cell contains a creature, use the creature for drawing
-                }
+                
                 Console.ForegroundColor = drawable.Color;
                 Console.Write(drawable.Symbol);
+                
+                
             }
             Console.WriteLine();
      }
@@ -54,9 +51,16 @@ internal class ConsoleUI
 
     internal static void Clear()
     {
-        Console.CursorVisible = false; // Hide the cursor for a cleaner UI = slutar fladdra när vi ritar om konsolen
-        Console.SetCursorPosition(0, 0); // Set the cursor to the top left corner of the console
+       Console.CursorVisible= false; // hide the cursor for a cleaner ui = slutar fladdra när vi ritar om konsolen
+       Console.SetCursorPosition(0, 0); // set the cursor to the top left corner of the console
 
+    }
+
+    internal static void PrintStats(string stats)
+    {
+        Console.ForegroundColor = ConsoleColor.Cyan; // Set the color for stats
+        Console.WriteLine(stats); // Print the stats to the console
+        Console.ForegroundColor = ConsoleColor.White; // Reset the color to white after printing stats
     }
 }
 

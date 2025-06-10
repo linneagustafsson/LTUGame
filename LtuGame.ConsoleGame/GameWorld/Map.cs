@@ -31,4 +31,14 @@ internal class Map : IMap
     {
         return GetCell(newPosition.Y, newPosition.X);
     }
+
+
+    public void Place(Creature creature)
+    {
+        if (Creatures.FirstOrDefault(c => c.Cell == creature.Cell) == null)
+        {
+            Creatures.Add(creature);
+        }
+    }
+    public Creature? CreatureAt(Cell cell) => Creatures.FirstOrDefault(c => c.Cell == cell);
 }

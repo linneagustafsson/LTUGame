@@ -10,7 +10,14 @@ namespace LtuGame.LimitedList
 
         public int Count => _list.Count;
         public bool IsFull => _capacity <= Count;
-        public LimitedList(int capacity) 
+        public T this[int index] => _list[index];
+       
+        //{
+        //    get => _list[index]; 
+        //    set => _list[index] = value;
+        //}
+
+        public LimitedList(int capacity)
         {
             _capacity = Math.Max(capacity, 2);
             _list = new List<T>(_capacity);

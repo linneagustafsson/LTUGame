@@ -18,11 +18,10 @@ namespace LtuGame.ConsoleGame.Extensions
             //{
             //    if (creature.Cell == cell)
 
-            //    result = creature;
+            //        result = creature;
             //    break;
             //}
             //return result;
-
             return creatures.FirstOrDefault(c => c.Cell ==cell);// Use LINQ to find the first creature that matches the cell
         }
         

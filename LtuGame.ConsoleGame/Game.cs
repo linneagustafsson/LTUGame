@@ -1,7 +1,7 @@
 ﻿using LtuGame.ConsoleGame;
 using LtuGame.ConsoleGame.Extensions;
 using LtuGame.ConsoleGame.GameWorld;
-using System.Data;
+using System.ComponentModel;
 using System.Diagnostics.CodeAnalysis;
 using System.Drawing;
 
@@ -69,8 +69,31 @@ internal class Game
         case ConsoleKey.P://Pick up item
                 PickUp();
                 break;
+            case ConsoleKey.I:
+                Inventory();
+                break;
+
+            //var actionmeny = new Dictionary<ConsoleKey, Action>
+            
+            //{
+              
+            //    { ConsoleKey.P, PickUp }, // Pick up item
+            //    { ConsoleKey.I, Inventory } // Show inventory
+            //};
+
+            //    if (actionmeny.ContainsKey(keyPressed))
+            //    {
+            //        actionmeny[keyPressed]?.Invoke(); // Invoke the action associated with the pressed key
+            //    }
         }
 
+    }
+    private void Inventory()
+    {
+        for (int i = 0; i < _player.BackPack.Count; i++)
+        {
+            ConsoleUI.AddMessage($"{i + 1}: {_player.BackPack[i]}");
+        }
     }
 
     private void PickUp()
@@ -116,22 +139,24 @@ internal class Game
     {
         ConsoleUI.Clear();
         ConsoleUI.Draw(_map); // Draw the map using the ConsoleUI class
+        ConsoleUI.PrintStats($"Health:  { _player.Health}"); // Print player stats to the console
         ConsoleUI.PrintLog(); // Print the message log to the console
     }
     //[MemberNotNull(nameof(_map), nameof(_player))] 
-    private void Init() 
+    private void Init()  // Initialize the game world and player
     {
+
         //ToDo: Read from config file   
 
         _map = new Map(height:10, width: 10);
         Cell? playerCell = _map.GetCell(0, 0);
-        _player = new Player(playerCell);
+        _player = new Player(playerCell!);
         
         _map.Creatures.Add(_player);
 
-        _map.GetCell(2, 6)?.Items.Add(Item.Coin());// Add a coin item to the map at position (2, 6)
-        _map.GetCell(3, 6)?.Items.Add(Item.Coin());
-        _map.GetCell(5, 2)?.Items.Add(Item.Stone());// Add a stone item to the map at position (2, 6)
-        _map.GetCell(4, 4)?.Items.Add(Item.Coin());
+        _map.GetCell(1, 1)?.Items.Add(Item.Coin());// Add a coin item to the map 
+        _map.GetCell(1, 2)?.Items.Add(Item.Coin());
+        _map.GetCell(1, 3)?.Items.Add(Item.Stone());// Add a stone item to the map 
+        _map.GetCell(1, 4)?.Items.Add(Item.Coin());
     }
 }
