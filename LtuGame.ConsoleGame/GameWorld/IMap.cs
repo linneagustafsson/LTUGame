@@ -6,6 +6,8 @@ internal interface IMap
     int Height { get; }
     int Width { get; }
 
-    Cell? GetCell(int y, int x); //overload for coordinates
+    Cell? GetCell(int y, int x);
     Cell? GetCell(Position newPosition);
+    void Place(Creature creature);
+    Creature? CreatureAt(Cell cell);
 }
