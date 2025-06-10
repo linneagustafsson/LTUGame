@@ -24,6 +24,13 @@ namespace LtuGame.LimitedList
             _list.Add(item); return true;
         }
 
+        public void Print(Action<T> action)
+        { 
+            //_list.ForEach(x=>action(x));
+            //_list.ForEach(action); //använder en action för att skriva ut varje item i listan
+            _list.ForEach(x => action?.Invoke(x));//?. gör att vi kan anropa action om den inte är null
+
+        }
         public IEnumerator<T> GetEnumerator()
         {
             //return _list.GetEnumerator();

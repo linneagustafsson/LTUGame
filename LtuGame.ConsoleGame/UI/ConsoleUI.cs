@@ -1,10 +1,26 @@
 ﻿
 using LtuGame.ConsoleGame.Extensions;
+using LtuGame.LimitedList;
+using System.Runtime.CompilerServices;
 
 internal class ConsoleUI
 {
     // This class is responsible for handling console input and output for the game.
     // It abstracts the drawing of the map and the retrieval of user input.
+    private static MessageLog<string> _messageLog = new(6);
+
+    internal static void AddMessage(string message) => _messageLog.Add(message);
+    internal static void PrintLog()
+    {
+        _messageLog.Print(m=> Console.WriteLine(m));// Prints each message in the log to the console
+        _messageLog.Print(HowToPrint); // Prints an empty line after the log messages
+        _messageLog.Print(x => HowToPrint(x));
+    }
+
+    private static void HowToPrint(string message)
+    { 
+        Console.WriteLine();
+    }
     internal static void Draw(IMap map) 
     {
 
@@ -18,8 +34,7 @@ internal class ConsoleUI
 
                 // Use the cell's drawable representation, prioritizing creatures over items
                 IDrawable drawable = map.Creatures.CreatureAt(cell)// Use the creature at the cell if present
-                                                                    ?? cell.Items.FirstOrDefault() as IDrawable// Use the first item as drawable if no creature is presents
-                                                                     ?? cell;// Fallback to the cell itself if no creature or item is present
+                                                             ?? cell;// Fallback to the cell itself if no creature or item is present
 
                 foreach (Creature creature in map.Creatures)
                 {
