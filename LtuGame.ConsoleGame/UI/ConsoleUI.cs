@@ -2,7 +2,7 @@
 using LtuGame.ConsoleGame.Extensions;
 using LtuGame.LimitedList;
 using System.Runtime.CompilerServices;
-
+using LtuGame.LimitedList;
 internal class ConsoleUI
 {
     // This class is responsible for handling console input and output for the game.
@@ -19,7 +19,7 @@ internal class ConsoleUI
 
     private static void HowToPrint(string message)
     { 
-        Console.WriteLine();
+        Console.WriteLine(message);
     }
     internal static void Draw(IMap map) 
     {
@@ -33,9 +33,9 @@ internal class ConsoleUI
                 ArgumentNullException.ThrowIfNull(cell, nameof(cell));
 
                 // Use the cell's drawable representation, prioritizing creatures over items
-                IDrawable drawable = map.Creatures.CreatureAt(cell)// Use the creature at the cell if present
-                                                             ?? cell;// Fallback to the cell itself if no creature or item is present
-                
+                IDrawable drawable = map.CreatureAt(cell)
+                                                                    ?? cell.Items.FirstOrDefault() as IDrawable
+                                                                    ?? cell;
                 Console.ForegroundColor = drawable.Color;
                 Console.Write(drawable.Symbol);
                 
