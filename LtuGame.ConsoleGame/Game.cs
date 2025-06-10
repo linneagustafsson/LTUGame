@@ -77,7 +77,7 @@ internal class Game
     {
         if (_player.BackPack.IsFull)
         { 
-            Console.WriteLine("Your backpack is full. You cannot pick up more items.");
+            ConsoleUI.AddMessage("Your backpack is full. You cannot pick up more items.");
             return;
         }
 
@@ -114,8 +114,9 @@ internal class Game
 
     public void Drawmap()
     {
-        Console.Clear();
+        ConsoleUI.Clear();
         ConsoleUI.Draw(_map); // Draw the map using the ConsoleUI class
+        ConsoleUI.PrintLog(); // Print the message log to the console
     }
     //[MemberNotNull(nameof(_map), nameof(_player))] 
     private void Init() 
